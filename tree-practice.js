@@ -5,19 +5,51 @@ const { BinarySearchTree, TreeNode } = require('./binary-search-tree.js');
 // Practice problems on binary trees
 
 function findMinBST (rootNode) {
-  // Your code here
+  if (!rootNode) return null; // handle empty tree
+  let currentNode = rootNode;
+  while (currentNode.left !== null) {
+    currentNode = currentNode.left; // keep moving left
+  }
+  return currentNode.val;
 }
 
 function findMaxBST (rootNode) {
-  // Your code here
+  if (!rootNode) return null; // handle empty tree
+  let currentNode = rootNode;
+  while (currentNode.right !== null) {
+    currentNode = currentNode.right; // keep moving right
+  }
+  return currentNode.val;
 }
 
 function findMinBT (rootNode) {
-  // Your code here
+  if (!rootNode) return null;
+  let minVal = rootNode.val;
+
+  function traverse(node) {
+    if (!node) return;
+    if (node.val < minVal) minVal = node.val;
+    traverse(node.left);
+    traverse(node.right);
+  }
+
+  traverse(rootNode);
+  return minVal;
 }
 
 function findMaxBT (rootNode) {
-  // Your code here
+  if (!rootNode) return null;
+  let maxVal = rootNode.val;
+
+  function traverse(node) {
+    if (!node) return;
+    if (node.val > maxVal) maxVal = node.val;
+    traverse(node.left);
+    traverse(node.right);
+  }
+
+  traverse(rootNode);
+  return maxVal;
 }
 
 function getHeight (rootNode) {
@@ -55,7 +87,7 @@ function deleteNodeBST(rootNode, target) {
 
   // Case 2: Two children:
   //  Set the value to its in-order predecessor, then delete the predecessor
-  //  Replace target node with the left most child on its right side, 
+  //  Replace target node with the left most child on its right side,
   //  or the right most child on its left side.
   //  Then delete the child that it was replaced with.
 
