@@ -53,11 +53,25 @@ function findMaxBT (rootNode) {
 }
 
 function getHeight (rootNode) {
-  // Your code here
+  if (!rootNode) return -1; // an empty tree has height -1
+  const leftHeight = getHeight(rootNode.left);
+  const rightHeight = getHeight(rootNode.right);
+  return Math.max(leftHeight, rightHeight) + 1;
 }
 
 function balancedTree (rootNode) {
-  // Your code here
+  function checkBalance(node) {
+    if (!node) return 0; // height of null node is 0
+    const leftHeight = checkBalance(node.left);
+    const rightHeight = checkBalance(node.right);
+
+    if (leftHeight === -1 || rightHeight === -1 || Math.abs(leftHeight - rightHeight) > 1) {
+      return -1; // unbalanced tree
+    }
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  return checkBalance(rootNode) !== -1;
 }
 
 function countNodes (rootNode) {
