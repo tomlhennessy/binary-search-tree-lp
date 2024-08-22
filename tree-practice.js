@@ -94,30 +94,43 @@ function getParentNode (rootNode, target) {
 }
 
 function inOrderPredecessor (rootNode, target) {
-  // Your code here
+  let prev = null;
+
+  function traverse(node) {
+    if (!node) return null;
+    let leftResult = traverse(node.left);
+    if (leftResult !== null) return leftResult;
+
+    if (node.val === target) return prev;
+    prev = node.val;
+
+    return traverse(node.right);
+  }
+
+  return traverse(rootNode);
 }
 
 function deleteNodeBST(rootNode, target) {
-  // Do a traversal to find the node. Keep track of the parent
+  if (!rootNode) return undefined;
 
-  // Undefined if the target cannot be found
+  if (target < rootNode.val) {
+    rootNode.left = deleteNodeBST(rootNode.left, target);
+  } else if (target > rootNode.val) {
+    rootNode.right = deleteNodeBST(rootNode.right, target);
+  } else {
+    // node found
+    if (!rootNode.left) return rootNode.right; // no left child
+    if (!rootNode.right) return rootNode.left; // no right child
 
-  // Set target based on parent
-
-  // Case 0: Zero children and no parent:
-  //   return null
-
-  // Case 1: Zero children:
-  //   Set the parent that points to it to null
-
-  // Case 2: Two children:
-  //  Set the value to its in-order predecessor, then delete the predecessor
-  //  Replace target node with the left most child on its right side,
-  //  or the right most child on its left side.
-  //  Then delete the child that it was replaced with.
-
-  // Case 3: One child:
-  //   Make the parent point to the child
+    // node with two children: get the in-order successor (smallest in the right subtree )
+    let successor = rootNode.right;
+    while (successor.left !== null) {
+      successor = successor.left;
+    }
+    rootNode.val = successor.val;
+    rootNode.right = deleteNodeBST(rootNode.right, successor.val);
+  }
+  return rootNode;
 
 }
 
