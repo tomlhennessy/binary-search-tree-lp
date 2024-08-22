@@ -75,11 +75,22 @@ function balancedTree (rootNode) {
 }
 
 function countNodes (rootNode) {
-  // Your code here
+  if (!rootNode) return 0;
+  return 1 + countNodes(rootNode.left) + countNodes(rootNode.right);
 }
 
 function getParentNode (rootNode, target) {
-  // Your code here
+  if (!rootNode || rootNode.val === target) return null;
+
+  function traverse(node) {
+    if (!node) return undefined;
+    if (node.left && node.left.val === target || node.right && node.right.val === target) {
+      return node;
+    }
+    return traverse(node.left) || traverse(node.right);
+  }
+
+  return traverse(rootNode);
 }
 
 function inOrderPredecessor (rootNode, target) {
